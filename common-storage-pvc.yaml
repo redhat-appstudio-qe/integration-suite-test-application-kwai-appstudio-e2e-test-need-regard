@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    build.appstudio.openshift.io/application: integration-suite-test-application-kwai
+    build.appstudio.openshift.io/build: "true"
+    build.appstudio.openshift.io/component: integration-suite-test-component-git-source-dirq
+    build.appstudio.openshift.io/type: build
+    build.appstudio.openshift.io/version: "0.1"
+    pipelines.appstudio.openshift.io/type: build
+  creationTimestamp: null
+  name: appstudio
+  namespace: appstudio-e2e-test
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem
+status: {}

@@ -1,0 +1,22 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    build.appstudio.openshift.io/application: integration-suite-test-application-kwai
+    build.appstudio.openshift.io/build: "true"
+    build.appstudio.openshift.io/component: integration-suite-test-component-git-source-dirq
+    build.appstudio.openshift.io/type: build
+    build.appstudio.openshift.io/version: "0.1"
+    pipelines.appstudio.openshift.io/type: build
+  creationTimestamp: null
+  name: elintegration-suite-test-component-git-source-dirq
+  namespace: appstudio-e2e-test
+spec:
+  path: /
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: el-integration-suite-test-component-git-source-dirq
+    weight: null
+status: {}

@@ -1,0 +1,50 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  creationTimestamp: null
+  name: integration-suite-test-component-git-source-dirq
+  namespace: appstudio-e2e-test
+spec:
+  params:
+  - name: git-revision
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      annotations:
+        build.appstudio.openshift.io/application: integration-suite-test-application-kwai
+        build.appstudio.openshift.io/build: "true"
+        build.appstudio.openshift.io/component: integration-suite-test-component-git-source-dirq
+        build.appstudio.openshift.io/type: build
+        build.appstudio.openshift.io/version: "0.1"
+        pipelines.appstudio.openshift.io/type: build
+      creationTimestamp: null
+      generateName: integration-suite-test-component-git-source-dirq-
+      labels:
+        build.appstudio.openshift.io/application: integration-suite-test-application-kwai
+        build.appstudio.openshift.io/build: "true"
+        build.appstudio.openshift.io/component: integration-suite-test-component-git-source-dirq
+        build.appstudio.openshift.io/type: build
+        build.appstudio.openshift.io/version: "0.1"
+        pipelines.appstudio.openshift.io/type: build
+      namespace: appstudio-e2e-test
+    spec:
+      params:
+      - name: git-url
+        value: https://github.com/redhat-appstudio-qe/devfile-sample-python-basic
+      - name: output-image
+        value: quay.io/redhat-appstudio-qe/test-images:fff9ef73360c4b3a938bbc90bc4da566-$(tt.params.git-revision)
+      - name: dockerfile
+        value: docker/Dockerfile
+      - name: path-context
+        value: .
+      pipelineRef:
+        bundle: quay.io/redhat-appstudio/build-templates-bundle:ad4c34b71d468a991450b0091cd96765471ed82d
+        name: docker-build
+      workspaces:
+      - name: workspace
+        persistentVolumeClaim:
+          claimName: appstudio
+        subPath: integration-suite-test-component-git-source-dirq/$(tt.params.git-revision)
+    status: {}
+status: {}
